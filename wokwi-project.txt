@@ -1,0 +1,5 @@
+Smoke & Fire Detection System 🚨
+An ESP32-based system with MQ-2 sensor, LEDs, buzzer, and LCD display for real-time smoke and fire alerts.
+
+Wokwi Simulation Link:
+https://wokwi.com/projects/440814903295993857
