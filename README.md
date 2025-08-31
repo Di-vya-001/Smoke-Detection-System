@@ -71,4 +71,4 @@ This project was designed and tested on **Wokwi**.
 ---
 
 ## 👩‍💻 Author
-Developed by **[Your Name]** as part of an IoT/Embedded Systems project.
+Developed by **[Divya]** as part of an IoT/Embedded Systems project.
