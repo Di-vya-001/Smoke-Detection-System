@@ -8,7 +8,7 @@
 #define LED_GREEN 27     // Green LED
 
 int smokeValue = 0;
-int threshold = 3000;    // Adjust after calibration
+int threshold = 1800;    // Adjust after calibration
 
 // Create LCD object (address 0x27 or 0x3F depending on module)
 LiquidCrystal_I2C lcd(0x27, 16, 2);
