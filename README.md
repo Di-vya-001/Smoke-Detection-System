@@ -1,5 +1,7 @@
 # Smoke Detection System 🚨
 
+> ESP32-based smoke detection system with LCD, buzzer, and LED indicators – tested on Wokwi
+
 This project is a **Smoke Detection and Alert System** built using an **ESP32 microcontroller**, **MQ-2 gas sensor**, **16x2 I2C LCD display**, **buzzer**, and **LED indicators**.  
 It continuously monitors the air quality and provides real-time alerts when smoke or harmful gases are detected.
 
