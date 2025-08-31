@@ -8,9 +8,12 @@
 #define LED_GREEN 27     // Green LED
 
 int smokeValue = 0;
-int threshold = 1800;    // Adjust after calibration
 
-// Create LCD object (address 0x27 or 0x3F depending on module)
+// Thresholds 
+int smokeThreshold = 1500;   // For smoke alert
+int fireThreshold  = 2300;   // For fire alert
+
+// LCD object
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 void setup() {
@@ -22,7 +25,7 @@ void setup() {
 
   lcd.init();
   lcd.backlight();
-  lcd.setCursor(0,0);
+  lcd.setCursor(0, 0);
   lcd.print("Smoke Detector");
   delay(2000);
   lcd.clear();
@@ -33,28 +36,59 @@ void loop() {
   Serial.print("Smoke Value: ");
   Serial.println(smokeValue);
 
-  if (smokeValue > threshold) {
-    
-
-    // For PASSIVE buzzer (needs tone):
-    tone(BUZZER_PIN, 1000);   // 1kHz sound
-
-    digitalWrite(LED_RED, HIGH);
-    digitalWrite(LED_GREEN, LOW);
-
+  if (smokeValue > fireThreshold) {
+    // 🚨 FIRE ALERT: Fast beep + fast LED blink
     lcd.clear();
     lcd.setCursor(0, 0);
-    lcd.print("ALERT: SMOKE!!");
+    lcd.print("FIRE ALERT!!!");
+    lcd.setCursor(0, 1);
+    lcd.print("Value: ");
+    lcd.print(smokeValue);
+
+    Serial.println("🔥 FIRE DETECTED!");
+
+    // Buzzer - fast beep
+    tone(BUZZER_PIN, 3000);
+    delay(100);
+    noTone(BUZZER_PIN);
+    delay(100);
+
+    // LED - fast blink
+    digitalWrite(LED_RED, HIGH);
+    delay(100);
+    digitalWrite(LED_RED, LOW);
+    delay(100);
+
+    digitalWrite(LED_GREEN, LOW);
+
+  } else if (smokeValue > smokeThreshold) {
+    // ⚠️ SMOKE ALERT: Slow beep + slow LED blink
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("SMOKE ALERT!");
     lcd.setCursor(0, 1);
     lcd.print("Value: ");
     lcd.print(smokeValue);
 
     Serial.println("⚠️ Smoke Detected!");
-  } else {
-    
-    // For PASSIVE buzzer:
-    noTone(BUZZER_PIN);
 
+    // Buzzer - slow beep
+    tone(BUZZER_PIN, 800);
+    delay(200);
+    noTone(BUZZER_PIN);
+    delay(800);
+
+    // LED - slow blink
+    digitalWrite(LED_RED, HIGH);
+    delay(500);
+    digitalWrite(LED_RED, LOW);
+    delay(500);
+
+    digitalWrite(LED_GREEN, LOW);
+
+  } else {
+    // ✅ Safe condition
+    noTone(BUZZER_PIN);
     digitalWrite(LED_RED, LOW);
     digitalWrite(LED_GREEN, HIGH);
 
@@ -66,7 +100,6 @@ void loop() {
     lcd.print(smokeValue);
 
     Serial.println("✅ Air is Clean");
+    delay(1000);
   }
-
-  delay(1000);
 }
